@@ -292,9 +292,6 @@ public class MessagingNotification {
         if (delivery != null) {
             delivery.deliver(context, isStatusMessage);
         }
-
-        notificationSet.clear();
-        threads.clear();
     }
 
     /**
@@ -1022,10 +1019,6 @@ public class MessagingNotification {
                     inboxStyle.addLine(info.formatInboxMessage(context));
                 }
                 notification = inboxStyle.build();
-
-                uniqueThreads.clear();
-                mostRecentNotifPerThread.clear();
-
                 if (DEBUG) {
                     Log.d(TAG, "updateNotification: multi messages," +
                             " showing inboxStyle notification");
@@ -1297,15 +1290,7 @@ public class MessagingNotification {
 
         try {
             if (cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndex(Sms.THREAD_ID);
-                if (columnIndex < 0) {
-                    if (DEBUG) {
-                        Log.d(TAG, "getSmsThreadId uri: " + uri +
-                                " Couldn't read row 0, col -1! returning THREAD_NONE");
-                    }
-                    return THREAD_NONE;
-                }
-                long threadId = cursor.getLong(columnIndex);
+                long threadId = cursor.getLong(cursor.getColumnIndex(Sms.THREAD_ID));
                 if (DEBUG) {
                     Log.d(TAG, "getSmsThreadId uri: " + uri +
                             " returning threadId: " + threadId);
@@ -1348,15 +1333,7 @@ public class MessagingNotification {
 
         try {
             if (cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndex(Mms.THREAD_ID);
-                if (columnIndex < 0) {
-                    if (DEBUG) {
-                        Log.d(TAG, "getThreadId uri: " + uri +
-                                " Couldn't read row 0, col -1! returning THREAD_NONE");
-                    }
-                    return THREAD_NONE;
-                }
-                long threadId = cursor.getLong(columnIndex);
+                long threadId = cursor.getLong(cursor.getColumnIndex(Mms.THREAD_ID));
                 if (DEBUG) {
                     Log.d(TAG, "getThreadId uri: " + uri +
                             " returning threadId: " + threadId);

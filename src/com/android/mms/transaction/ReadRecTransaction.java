@@ -42,12 +42,11 @@ import com.google.android.mms.pdu.ReadRecInd;
  * <li>Notifies the TransactionService about succesful completion.
  * </ul>
  */
-public class ReadRecTransaction extends Transaction implements Runnable{
+public class ReadRecTransaction extends Transaction {
     private static final String TAG = "ReadRecTransaction";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 
-    private Thread mThread;
     private final Uri mReadReportURI;
 
     public ReadRecTransaction(Context context,
@@ -68,11 +67,6 @@ public class ReadRecTransaction extends Transaction implements Runnable{
      */
     @Override
     public void process() {
-        mThread = new Thread(this, "ReadRecTransaction");
-        mThread.start();
-    }
-
-    public void run() {
         PduPersister persister = PduPersister.getPduPersister(mContext);
 
         try {
